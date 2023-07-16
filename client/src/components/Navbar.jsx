@@ -1,6 +1,10 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+
+  const userInfo = useSelector(state => state?.auth?.auth?.user)
+
   return (
     <header className="flex justify-between items-center">
       {/* logo */}
@@ -75,6 +79,11 @@ const Navbar = () => {
             />
           </svg>
         </div>
+        {!!userInfo && (
+          <div>
+          {userInfo?.name}
+          </div>
+        )}
       </Link>
     </header>
   );
