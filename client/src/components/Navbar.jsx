@@ -8,7 +8,7 @@ const Navbar = () => {
   return (
     <header className="flex justify-between items-center">
       {/* logo */}
-      <a href="" className="flex items-start gap-1 items-center">
+      <Link to={"/"} className="flex items-start gap-1 items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -24,7 +24,7 @@ const Navbar = () => {
           />
         </svg>
         <span className="font-bold text-xl">airbnb</span>
-      </a>
+      </Link>
       {/* middle area */}
       <div className="flex gap-2 border border-gray-300 rounded-full py-2 px-4 shadow-md shadow-gray-300">
         <div>Anywhere</div>
@@ -50,7 +50,7 @@ const Navbar = () => {
         </button>
       </div>
       {/* right side */}
-      <Link to={"/login"} className="flex gap-2 items-center border border-gray-300 rounded-full py-2 px-4">
+      <Link to={ userInfo ? "/account" : "/login"} className="flex gap-2 items-center border border-gray-300 rounded-full py-2 px-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

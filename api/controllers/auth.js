@@ -71,13 +71,8 @@ const profile = async (req, res) => {
     try {
       const userId = req.params.id;
       const user = await Auth.findById(userId);
-  
-      // Kullanıcı bilgilerini içeren token oluştur
       const token = jwt.sign({ email: user.email, id: user._id }, jwtSecret, {});
-  
-      // Token'i kullanıcıya gönder
       res.cookie('token', token).json({ user, token });
-  
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

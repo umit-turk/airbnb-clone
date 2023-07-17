@@ -23,6 +23,16 @@ export const loginAction = (authData, navigate) => async(dispatch) => {
     }
 }
 
+export const logoutAction = (navigate) => async(dispatch) => {
+    try {
+        dispatch({type:"LOGOUT"})
+        showToast('Logout successful!');
+        navigate("/")
+    } catch (error) {
+        showToast(error.response.data.message);
+    }
+}
+
 export const profileAction = (id) => async(dispatch) => {
     try {
       const {data} = await axios.get(`/profile/${id}`)

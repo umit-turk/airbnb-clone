@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Layout from "./layout/layout";
 import Register from "./pages/Register";
+import Account from "./pages/Account";
 import axios from "axios";
 import useToken from "./hooks/useToken";
 import { useEffect } from "react";
@@ -25,10 +26,11 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={  <Layout /> }>
-          <Route index element={token?.token ? <Home /> : <Login />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/account/:subpage?" element={<Account />} />
         </Route>
       </Routes>
     </>
