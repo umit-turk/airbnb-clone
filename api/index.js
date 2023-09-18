@@ -10,6 +10,7 @@ const placeRouter = require("./routes/place.js");
 dotenv.config();
 
 const app = express();
+app.use('/uploads',express.static(__dirname+'/uploads'))
 app.use(cors({
     credentials:true,
     origin:"http://localhost:5173"

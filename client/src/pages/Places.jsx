@@ -5,6 +5,7 @@ import {
 } from "../assets/svgs.jsx";
 import { useState } from "react";
 import Perks from "../components/Perks.jsx";
+import axios from 'axios'
 const Places = () => {
   const { action } = useParams();
   const [title, setTitle] = useState("");
@@ -18,8 +19,13 @@ const Places = () => {
   const [checkOut, setCheckOut] = useState("");
   const [maxGuests, setMaxGuests] = useState(1);
 
-  const addPhotoByLink = () => {
-    
+  const addPhotoByLink = async (ev) => {
+    ev.preventDefault()
+   const {data:fileName} = await axios.post('/upload-by-link', {link:photoLink})
+    setAddedPhotos(prev => {
+      return [...prev, fileName];
+    })
+    setPhotoLink('')
   }
 
   return (
@@ -56,12 +62,19 @@ const Places = () => {
             <p className="text-gray-500 text-sm">more = better</p>
             <div className="flex gap-2">
               <input value={photoLink} onChange={(ev) => setPhotoLink(ev.target.value)} type="text" placeholder="Add using a link ...jpg" />
-              <button  className="bg-gray-200 px-4 rounded-2xl">
+              <button onClick={addPhotoByLink}  className="bg-gray-200 px-4 rounded-2xl">
                 Add&nbsp;photo
               </button>
             </div>
-            <div className="mt-2 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-              <button className="border flex justify-center gap-1 bg-transparent rounded-2xl p-8 text-2xl text-gray-600">
+            <div className="mt-2 grid gap-2 grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+              {
+                addedPotos.length > 0 && addedPotos.map((link,index) => (
+                  <div key={index}>
+                    <img className="rounded-2xl" src={'http://localhost:4000/uploads/'+link} />
+                  </div>
+                ))
+              }
+              <button className="border flex items-center justify-center gap-1 bg-transparent rounded-2xl p-2 text-2xl text-gray-600">
                 <UploadIcon />
                 Upload
               </button>
