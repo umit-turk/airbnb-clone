@@ -21,11 +21,26 @@ const Places = () => {
 
   const addPhotoByLink = async (ev) => {
     ev.preventDefault()
+    if(!photoLink) return
    const {data:fileName} = await axios.post('/upload-by-link', {link:photoLink})
     setAddedPhotos(prev => {
       return [...prev, fileName];
     })
     setPhotoLink('')
+  }
+
+  const uploadPhoto = async (ev) => {
+    const files = ev.target.files
+    const data = new FormData()
+    for(let i=0;i < files.length; i++){
+      data.append('photos',files[i])
+    }
+    const {data:fileNames} = await axios.post('/upload',data,{
+      headers:{'Content-type':'multipart/form-data'}
+    })
+    setAddedPhotos(prev => {
+      return [...prev, ...fileNames];
+    })
   }
 
   return (
@@ -69,15 +84,16 @@ const Places = () => {
             <div className="mt-2 grid gap-2 grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
               {
                 addedPotos.length > 0 && addedPotos.map((link,index) => (
-                  <div key={index}>
-                    <img className="rounded-2xl" src={'http://localhost:4000/uploads/'+link} />
+                  <div className="h-32 flex" key={index}>
+                    <img className="rounded-2xl w-full object-cover" src={'http://localhost:4000/uploads/'+link} />
                   </div>
                 ))
               }
-              <button className="border flex items-center justify-center gap-1 bg-transparent rounded-2xl p-2 text-2xl text-gray-600">
+              <label className="h-32 border flex items-center justify-center cursor-pointer gap-1 bg-transparent rounded-2xl p-2 text-2xl text-gray-600">
+              <input multiple type="file" className="hidden" onChange={uploadPhoto} />
                 <UploadIcon />
                 Upload
-              </button>
+              </label>
             </div>
             <h2 className="text-2xl mt-4">Description</h2>
             <p className="text-gray-500 text-sm">description of the places</p>
