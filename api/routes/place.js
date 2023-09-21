@@ -1,10 +1,9 @@
 const express = require("express");
-const { place, upload, uploadByLink, photosMiddleware } = require("../controllers/place.js");
+const { getAll, places } = require("../controllers/place.js");
 
 const router = express.Router();
 
-router.get("/place", place);
-router.post("/upload-by-link", uploadByLink);
-router.post("/upload", photosMiddleware.array('photos',100),upload);
+router.get("/places", getAll);
+router.post("/place", places);
 
 module.exports = router;

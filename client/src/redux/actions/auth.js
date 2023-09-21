@@ -3,7 +3,7 @@ import { showToast } from '../../components/Toast';
 
 export const registerAction = (authData, navigate) => async(dispatch) => {
     try {
-        const {data} = await axios.post("/register", authData)
+        const {data} = await axios.post("/register", authData,{withCredentials:true})
         dispatch({type:"REGISTER",payload:data})
         showToast('Registration successful!');
         navigate("/login")
@@ -14,7 +14,7 @@ export const registerAction = (authData, navigate) => async(dispatch) => {
 
 export const loginAction = (authData, navigate) => async(dispatch) => {
     try {
-        const {data} = await axios.post("/login",authData)
+        const {data} = await axios.post("/login",authData,{withCredentials:true})
         dispatch({type:"LOGIN",payload:data})
         showToast('Login successful!');
         navigate("/")

@@ -1,9 +1,9 @@
 const Auth = require("../models/auth.js")
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const jwtUtils = require('../utils/jwt.js');
 
 const bcryptSalt = bcrypt.genSaltSync(10);
-const jwtSecret = "asjfkdsjfdkadaf";
+
 
 const register = async (req, res) => {
     const {name, email, password} = req.body
@@ -34,45 +34,53 @@ const register = async (req, res) => {
     }
 }
 
-const login = async (req,res) => {
-    const {email, password} = req.body
+const login = async (req, res) => {
+    const { email, password } = req.body;
     try {
-
-   const user = await Auth.findOne({email})
-
-   if(!user){
-    return res.status(400).json({message:"There is no user with email."})
-   }
-
-   if(!email){
-    return res.status(400).json({message:"Email is required."})
-   }
-
-   if(!password){
-    return res.status(400).json({message:"Password is required."})
-   }
-
-   const passwordCompare = await bcrypt.compare(password, user.password)
-
-   if(!passwordCompare){
-    return res.status(400).json({message:"Password or email not correct."})
-   }
-   jwt.sign({email:user.email, id:user._id}, jwtSecret, {}, (err, token) => {
-    if(err) throw err;
-    res.cookie('token',token).json({user, token})
-   })
-        
+      const user = await Auth.findOne({ email });
+  
+      if (!user) {
+        return res.status(400).json({ message: "There is no user with email." });
+      }
+  
+      if (!email) {
+        return res.status(400).json({ message: "Email is required." });
+      }
+  
+      if (!password) {
+        return res.status(400).json({ message: "Password is required." });
+      }
+  
+      const passwordCompare = await bcrypt.compare(password, user.password);
+  
+      if (!passwordCompare) {
+        return res
+          .status(400)
+          .json({ message: "Password or email not correct." });
+      }
+  
+      const token = jwtUtils.generateToken(user); // JWT oluşturmak için jwtUtils kullanın
+      console.log(token);
+  
+      // Token'i bir çereze (cookie) ekleyin
+      res.cookie("token", token, {
+        httpOnly: true, // Tarayıcı tarafından erişilemez
+      });
+  
+      res.json({ user, token });
     } catch (error) {
-        return res.status(500).json({message:error})
+      return res.status(500).json({ message: error });
     }
-}
+  };
 
 const profile = async (req, res) => {
     try {
       const userId = req.params.id;
       const user = await Auth.findById(userId);
-      const token = jwt.sign({ email: user.email, id: user._id }, jwtSecret, {});
-      res.cookie('token', token).json({ user, token });
+      const token = jwtUtils.generateToken(user); // JWT oluşturmak için jwtUtils kullanın
+      res.cookie("token", token, {
+        httpOnly: true, // Tarayıcı tarafından erişilemez
+      });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
