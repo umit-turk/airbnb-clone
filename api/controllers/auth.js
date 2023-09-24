@@ -60,7 +60,6 @@ const login = async (req, res) => {
       }
   
       const token = jwtUtils.generateToken(user); // JWT oluşturmak için jwtUtils kullanın
-      console.log(token);
   
       // Token'i bir çereze (cookie) ekleyin
       res.cookie("token", token, {

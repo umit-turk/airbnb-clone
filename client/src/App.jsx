@@ -10,6 +10,8 @@ import useToken from "./hooks/useToken";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { profileAction } from "./redux/actions/auth";
+import Places from "./pages/Places";
+import PlacesForm from "./components/PlacesForm";
 
 axios.defaults.baseURL = "http://localhost:4000";
 
@@ -30,8 +32,9 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/account/:subpage?" element={<Account />} />
-          <Route path="/account/:subpage/:action" element={<Account />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/account/places" element={<Places />} />
+          <Route path="/account/places/new" element={<PlacesForm />} />
         </Route>
       </Routes>
     </>

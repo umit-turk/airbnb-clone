@@ -5,9 +5,9 @@ function generateToken(user) {
     return jwt.sign({ email: user.email, id: user._id }, jwtSecret, {});
   }
   
-  function verifyToken(token) {
+  async function verifyToken(token) {
     try {
-      const decoded = jwt.verify(token, jwtSecret);
+      const decoded = await jwt.verify(token, jwtSecret);
       return decoded;
     } catch (error) {
       return null;
