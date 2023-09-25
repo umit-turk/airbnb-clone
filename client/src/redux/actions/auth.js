@@ -35,7 +35,13 @@ export const logoutAction = (navigate) => async(dispatch) => {
 
 export const profileAction = (id) => async(dispatch) => {
     try {
-      const {data} = await axios.get(`/profile/${id}`)
+      const {data} = await axios.get(`/profile/${id}`,{
+        withCredentials: true,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
        dispatch({type:"GET_USER",payload:data})
     } catch (error) {
         console.log(error)

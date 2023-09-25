@@ -1,7 +1,17 @@
 const PlaceSchema = require("../models/place.js");
 const jwtUtils = require("../utils/jwt.js");
 
-const getAll = async (req, res) => {};
+const getAll = async (req, res) => {
+  try {
+    const {token} = req.cookies
+    const generateToken = await jwtUtils.verifyToken(token);
+    const {id} = generateToken;
+    const places = await PlaceSchema.find({owner:id})
+    res.json(places)
+  } catch (error) {
+    console.log(error)
+  }
+};
 const places = async (req, res) => {
   try {
     const { token } = req.cookies;
@@ -21,7 +31,7 @@ const places = async (req, res) => {
       owner: generateToken.id,
       title,
       address,
-      addedPhotos,
+      photos:addedPhotos,
       description,
       perks,
       extraInfo,
