@@ -2,7 +2,7 @@ import { useState } from "react";
 import { UploadIcon } from "../assets/svgs";
 import axios from "axios";
 
-export default function PhotosUploader({ addedPotos, onChange }) {
+export default function PhotosUploader({ addedPhotos, onChange }) {
   const [photoLink, setPhotoLink] = useState("");
 
   const addPhotoByLink = async (ev) => {
@@ -47,8 +47,8 @@ export default function PhotosUploader({ addedPotos, onChange }) {
         </button>
       </div>
       <div className="mt-2 grid gap-2 grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-        {addedPotos.length > 0 &&
-          addedPotos.map((link, index) => (
+        {addedPhotos?.length > 0 &&
+          addedPhotos?.map((link, index) => (
             <div className="h-32 flex" key={index}>
               <img
                 className="rounded-2xl w-full object-cover"

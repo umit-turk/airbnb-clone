@@ -19,6 +19,7 @@ const Places = () => {
         "Content-Type": "application/json",
       },
     });
+    console.log(data)
     setPlaces(data);
   };
   return (
@@ -41,8 +42,8 @@ const Places = () => {
         {places.length > 0 &&
           places.map((place, idx) => (
             <Link to={'/account/places/'+place._id} className="flex cursor-pointer gap-4 bg-gray-100 p-4 rounded-2xl" key={idx}>
-              <div className="w-32 h-32 bg-gray-300">
-                {place.photos.length > 0 && <img src={place.photos[0]} />}
+              <div className="flex w-32 h-32 bg-gray-300">
+                {place?.photos?.length > 0 && (<img className="object-cover w-32 h-32" src={`http://localhost:4000/uploads/${place?.photos[0]}`} />)}
               </div>
               <div>
                 <h2 className="text-xl">{place.title}</h2>
