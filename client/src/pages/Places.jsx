@@ -12,14 +12,13 @@ const Places = () => {
   }, []);
 
   const getAll = async () => {
-    const { data } = await axios.get("/places", {
+    const { data } = await axios.get("/user-places", {
       withCredentials: true,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
     });
-    console.log(data)
     setPlaces(data);
   };
   return (
@@ -27,7 +26,7 @@ const Places = () => {
       <AccountNav />
       {action !== "new" && (
         <div className="text-center">
-          list of all aded places
+          list of all added places
           <br />
           <Link
             className="bg-primary inline-flex gap-1 text-white py-2 px-4 rounded-full"

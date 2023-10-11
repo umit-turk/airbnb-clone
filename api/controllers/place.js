@@ -26,22 +26,16 @@ const updatePlace = async (req, res) => {
     const { token } = req.cookies;
     const {
       id, title, address, addedPhotos, description,
-      perks, extraInfo, checkIn, checkOut, maxGuests,
+      perks, extraInfo, checkIn, checkOut, maxGuests,price
     } = req.body;
-    console.log(req.body,"photos")
-    // Place dokümanını bul
     const placeDoc = await PlaceSchema.findById(id);
-    // Token doğrulaması yap
     const generateToken = await jwtUtils.verifyToken(token);
     if (generateToken.id === placeDoc.owner.toString()) {
-      // Eğer sahiplik doğrulandıysa, güncellemeleri yap
       placeDoc.set({
         title, address, photos: addedPhotos, description,
-        perks, extraInfo, checkIn, checkOut, maxGuests,
+        perks, extraInfo, checkIn, checkOut, maxGuests,price
       });
       await placeDoc.save();
-
-      // Güncellenmiş dokümanı yanıtla
       res.json(placeDoc);
     } else {
       res.status(403).json({ message: "Erişim reddedildi" });
@@ -65,6 +59,7 @@ const createPlace = async (req, res) => {
       checkIn,
       checkOut,
       maxGuests,
+      price
     } = req.body;
     const generateToken = await jwtUtils.verifyToken(token);
     const placeDoc = await PlaceSchema.create({
@@ -78,6 +73,7 @@ const createPlace = async (req, res) => {
       checkIn,
       checkOut,
       maxGuests,
+      price
     });
     res.json(placeDoc)
   } catch (error) {
@@ -86,4 +82,13 @@ const createPlace = async (req, res) => {
   }
 };
 
-module.exports = { getAll, createPlace, getPlace, updatePlace };
+const places = async (req, res) => {
+  try {
+    const places = await PlaceSchema.find()
+    res.json(places)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+module.exports = { getAll, createPlace, getPlace, updatePlace, places };
