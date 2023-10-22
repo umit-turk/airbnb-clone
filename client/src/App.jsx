@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { profileAction } from "./redux/actions/auth";
 import Places from "./pages/Places";
 import PlacesForm from "./components/PlacesForm";
+import PlacePage from "./pages/PlacePage";
 
 axios.defaults.baseURL = "http://localhost:4000";
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/account/places" element={<Places />} />
           <Route path="/account/places/new" element={<PlacesForm />} />
           <Route path="/account/places/:id" element={<PlacesForm />} />
+          <Route path="/place/:id" element={<PlacePage />} />
         </Route>
       </Routes>
     </>

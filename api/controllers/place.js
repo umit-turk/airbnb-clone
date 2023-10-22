@@ -90,5 +90,14 @@ const places = async (req, res) => {
     console.log(error)
   }
 }
+const place = async (req, res) => {
+  const {id} = req.params;
+  try {
+    const places = await PlaceSchema.findById(id)
+    res.json(places)
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-module.exports = { getAll, createPlace, getPlace, updatePlace, places };
+module.exports = { getAll, createPlace, getPlace, updatePlace, places, place };
